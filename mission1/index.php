@@ -72,8 +72,13 @@
             if ($_POST["email"] && $_POST["password"]) {
                 $sql = "USE {$env["DATABASE"]}";
                 $conn->query($sql);
-                $sql = "SELECT * FROM user WHERE email='{$_POST["email"]}' AND password='{$_POST["password"]}'";
-                $result = $conn->query($sql);
+                $stmt  = $conn->prepare("SELECT * FROM user WHERE email= ? AND password= ? ");
+                $stmt->bind_param(
+                    'ss',
+                    $_POST["email"],
+                    $_POST["password"]);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
                     header('Location: dashboard.php');
