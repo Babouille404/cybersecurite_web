@@ -110,7 +110,8 @@
             while ($row = $result->fetch_assoc()) {
                 echo "<div class='comment'>";
                 echo "<div class='id'>#{$row["id"]}</div>";
-                echo "<div class='content'>" . $row["content"] . "</div>";
+                $row['content'] = htmlspecialchars($row["content"]);
+                echo "<div class='content'>" . $row["content"]. "</div>";
                 echo "</div>";
             }
         } else {
